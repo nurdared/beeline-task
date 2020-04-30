@@ -1,58 +1,19 @@
 <template>
-  <section>
-    <b-row class="mt-4">
-      <b-col sm>
-        <b-card>
-          <p>
-            This is some content within the default block of the
-            component. Notice the padding between the card's border and this
-          </p>
-        </b-card>
-      </b-col>
-      <b-col sm>
-        <b-card>
-          <p>
-            This is some content within the default block of the
-            component. Notice the padding between the card's border and this
-          </p>
-        </b-card>
-      </b-col>
-      <b-col sm>
-        <b-card>
-          <p>
-            This is some content within the default block of the
-            component. Notice the padding between the card's border and this
-          </p>
-        </b-card>
-      </b-col>
-    </b-row>
-    <b-row class="mt-4">
-      <b-col sm>
-        <b-card>
-          <p>
-            This is some content within the default block of the
-            component. Notice the padding between the card's border and this
-          </p>
-        </b-card>
-      </b-col>
-      <b-col sm>
-        <b-card>
-          <p>
-            This is some content within the default block of the
-            component. Notice the padding between the card's border and this
-          </p>
-        </b-card>
-      </b-col>
-      <b-col sm>
-        <b-card>
-          <p>
-            This is some content within the default block of the
-            component. Notice the padding between the card's border and this
-          </p>
-        </b-card>
-      </b-col>
-    </b-row>
-  </section>
+  <b-row>
+    <b-col v-for="quote in quotes" :key="quote.id" sm="12" md="6" lg="4" cols="12" class="mt-3">
+      <b-card>
+        <p>{{quote.text}}</p>
+        <div class="h5 mb-0" style="position: relative">
+          <b-icon
+            icon="trash"
+            variant="danger"
+            style="position: relative; float: right; cursor: pointer"
+            @click="$emit('del-quote', quote.id)"
+          ></b-icon>
+        </div>
+      </b-card>
+    </b-col>
+  </b-row>
 </template>
 
 
@@ -60,7 +21,8 @@
 export default {
   name: "QuoteList",
   props: {
-    msg: String
+    msg: String,
+    quotes: Array
   }
 };
 </script>
@@ -71,5 +33,11 @@ export default {
 p {
   font-family: "Arizonia", cursive;
   font-size: 1.3rem;
+}
+
+.delete-btn {
+  position: relative;
+  right: 0;
+  bottom: 0;
 }
 </style>
