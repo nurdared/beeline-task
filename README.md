@@ -1,14 +1,10 @@
 # Quotes Project
 
 ## Project Demo
-```
 See [Live Demo Here](https://nurdared-beeline.netlify.app/).
-```
 
 ### Project Database
-```
 This project uses REST API from  [RestDB.io](https://restdb.io/).
-```
 
 ### Compiles and minifies for production
 ```
