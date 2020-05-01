@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="mt-2">
     <ProgressBar :quoteCount="length" />
     <QuoteInput @add-quote="addQuote" />
     <QuoteList :quotes="quotes" @del-quote="deleteQuote" />
@@ -11,6 +11,10 @@ import ProgressBar from "./components/ProgressBar.vue";
 import QuoteInput from "./components/QuoteInput.vue";
 import QuoteList from "./components/QuoteList.vue";
 import axios from "axios";
+
+const baseUrl = "https://beeline-3fee.restdb.io/rest/db";
+const apikey = "apikey=5eaaf516161b39295cdee783";
+const sortByDate = "?q={}&sort=_created";
 
 export default {
   name: "App",
@@ -30,49 +34,45 @@ export default {
     }
   },
   methods: {
-    getAllQuotes() {
-      fetch(
-        "https://beeline-3fee.restdb.io/rest/db?apikey=5eaaf516161b39295cdee783"
-      )
-        .then(res => res.json())
-        .then(json => (this.quotes = json.reverse()));
+    getQuotes() {
+      axios
+        .get(baseUrl + sortByDate + "&" + apikey)
+        .then(response => (this.quotes = response.data))
+        .catch(err => console.log(err));
     },
-    deleteQuote(id) {
-      this.quotes = this.quotes.filter(quote => quote.id !== id);
-    },
+
     addQuote(quote) {
       if (this.quotes.length === 10) {
         alert("Для добавления новых цитат удалите одну из добавленных");
         return;
       }
+      this.quotes.push({ text: quote });
       axios
-        .post(
-          "https://beeline-3fee.restdb.io/rest/db?apikey=5eaaf516161b39295cdee783",
-          {
-            text: quote
-          }
-        )
+        .post(baseUrl + "?" + apikey, {
+          text: quote
+        })
         .then(response => response.data)
         .then(quote => {
           console.log("Success:", quote);
-          this.getAllQuotes();
+          this.getQuotes();
         })
         .catch(error => {
           console.error("Error:", error);
         });
+    },
+
+    deleteQuote(id) {
+      this.quotes = this.quotes.filter(quote => quote._id !== id);
+      axios
+        .delete(baseUrl + "/" + id + "?" + apikey)
+        .catch(e => console.log(e));
     }
   },
   mounted() {
-    this.getAllQuotes();
-    // axios
-    //   .get(
-    //     "https://beeline-3fee.restdb.io/rest/db?apikey=5eaaf516161b39295cdee783"
-    //   )
-    //   .then(response => (this.quotes = response.data))
-    //   .catch(err => console.log(err));
+    this.getQuotes();
   }
 };
 </script>
 
-<style scoped>
+<style>
 </style>
