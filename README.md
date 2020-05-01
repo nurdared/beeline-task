@@ -1,13 +1,13 @@
-# beeline-task
+# Quotes Project
 
-## Project setup
+## Project Demo
 ```
-npm install
+See [Live Demo Here](https://nurdared-beeline.netlify.app/).
 ```
 
-### Compiles and hot-reloads for development
+### Project Database
 ```
-npm run serve
+This project uses REST API from  [RestDB.io](https://restdb.io/).
 ```
 
 ### Compiles and minifies for production
